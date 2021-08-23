@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+
+{% block head %}
+	<title>Magazine Campinas</title>
+{% endblock head %}
+
+{% block body %}
+
+	{% import 'components/Product.html' as prod %}
+	{% import 'components/SmartCheckbox.html' as chk %}
+
+	<div class="everything-container">
+		<aside class="sidebar">
+			<!-- COMPONENTS SIDEBAR -->
+			<output>
+			<div class="card">
+				<article class="filter-group">
+					<header class="card-header">
+						<a href="#" data-toggle="collapse" data-target="#collapse_aside2" aria-expanded="true" class="">
+							<i class="icon-control fa fa-chevron-down"></i>
+							<h6 class="title">Filtro </h6>
+						</a>
+					</header>
+					<div class="filter-content collapse show" id="collapse_aside2" style="">
+						<form action="" class="card-body" method="POST">
+							<div class="input-group">
+								<input type="text" name="search" class="form-control" placeholder="Buscar" value={{ request.form.search }}>
+								<div class="input-group-append">
+									<button class="btn btn-primary" type="submit" name="search-form" value="1"><i class="fa fa-search"></i></button>
+								</div>
+							</div>
+							<br />
+							<div class="form-row">
+								<div class="form-group col-md-6">
+									<label>Min</label>
+									<input class="form-control" placeholder="R$ 0" type="number" name="min" value="{{request.form.get('min')}}">
+								</div>
+								<div class="form-group text-right col-md-6">
+									<label>Max</label>
+									<input class="form-control" placeholder="R$ 1,0000" type="number" name="max" value="{{request.form.get('max')}}">
+								</div>
+							</div> <!-- form-row.// -->
+							<div class="card-body">
+								{{ chk.SmartCheckbox("A-Z", request.form.get('A-Z')) }}
+								{{ chk.SmartCheckbox("Z-A", request.form.get('Z-A')) }}
+								{{ chk.SmartCheckbox("Preço+", request.form.get('Preço+')) }}
+								{{ chk.SmartCheckbox("Preço-", request.form.get('Preço-')) }}
+								{{ chk.SmartCheckbox("Vendas", request.form.get('Vendas')) }}
+							</div> <!-- card-body.// -->
+							<button class="btn btn-block btn-primary" type="submit">Aplicar</button>
+						</form> <!-- card-body.// -->
+					</div>
+				</article> <!-- filter-group  .// -->
+			</div> <!-- card.// -->
+			</output>
+			<!-- COMPONENTS SIDEBAR END .// -->
+		</aside>
+
+		<div class="products-container">
+			<section class='inner-products-container'>
+				<div class='container'>
+					<div class='products-container-row'>
+
+						{% for row in data %}
+						{{ prod.onIndex(row[2], row[4], row[6], row[0]) }}
+						{% endfor %}
+
+					</div>
+				</div>
+			</section>
+		</div>
+	</div>
+
+{% endblock body %}
+
+{% block script %}
+<script src="/static/js/index.js" type="text/javascript"></script>
+{% endblock script %}

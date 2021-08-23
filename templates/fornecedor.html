@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block head %}
+<title>Painel do Fornecedor</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+{% endblock head %}
+
+{% block body %}
+
+	{% import 'components/Product.html' as prod %}
+    
+    {% block beforeHistory %}
+    {% endblock beforeHistory %}
+
+    {% if error %}
+    <div style="display: none;" id="hidden-content-error">
+        <div class="card-body">
+            <h4 class="card-title mb-4">{{error}}</h4>
+        </div>
+    </div>
+    {% endif %}
+
+    {{ prod.editable([-1] + ['']*10, None) }}
+
+    <div class="cadastrar-btn">
+    <a class="fancybox btn btn-primary" data-fancybox data-src="#hidden-content--1" href="javascript:;">
+        Cadastrar novo
+    </a>
+    </div>
+
+<div class="card-provider">
+<article class="card">
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <tbody>
+                {% for row in data %}
+                {{ prod.editable(row, images[row[0]]) }}
+                {% endfor %}
+            </tbody>
+        </table>
+    
+    </div> <!-- table-responsive .end// -->
+</article>
+</div>
+{% endblock body %}
+
+{% block script %}
+<script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+<script src="/static/js/fornecedor.js"></script>
+<script type="text/javascript">
+    
+    $(document).ready(function() {
+        $("#hidden-content-error").fancybox().trigger('click');
+    });
+
+</script>
+{% endblock script %}
